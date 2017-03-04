@@ -1,0 +1,10 @@
+{
+  "name": "conifer-demo",
+  "productName": "conifer-demo",
+  "version": "0.0.1",
+  "description": "App to demonstrate capability of Conifer",
+  "main": "./main.js",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
