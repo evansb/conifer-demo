@@ -15,10 +15,10 @@ const webpackConfig: webpack.Configuration = {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.tsx?$/,
-        loaders: ['awesome-typescript-loader'],
+        use: ['awesome-typescript-loader'],
         exclude: path.resolve(__dirname, 'node_modules')
       }
     ]
