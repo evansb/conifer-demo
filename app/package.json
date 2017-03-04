@@ -5,6 +5,11 @@
   "description": "App to demonstrate capability of Conifer",
   "main": "./main.js",
   "license": "MIT",
+  "author": {
+    "name": "Evan Sebastian",
+    "email": "evanlhoini@gmail.com",
+    "url": "https://github.com/evansb"
+  },
   "dependencies": {
   }
 }

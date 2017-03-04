@@ -4,26 +4,37 @@
   "description": "Example integration of Conifer",
   "main": "main.js",
   "scripts": {
+    "build-main": "cross-env NODE_ENV=production node -r ts-node/register ./node_modules/webpack/bin/webpack --config build/webpack.config.electron.ts --progress --profile --colors",
+    "build-renderer": "cross-env NODE_ENV=production node -r ts-node/register ./node_modules/webpack/bin/webpack --config build/webpack.config.production.ts --progress --profile --colors",
+    "build": "npm run build-main && npm run build-renderer",
     "hot-server": "cross-env NODE_ENV=development ts-node bin/server.ts",
     "dev": "npm run hot-server -- --start-hot",
     "start": "cross-env NODE_ENV=production electron ./app/",
-    "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r ts-node/register ./app/main.development"
+    "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r ts-node/register ./app/main.development",
+    "package": "npm run build && build --publish never",
+    "package-win": "npm run build && build --win --x64",
+    "package-linux": "npm run build && build --linux",
+    "package-all": "npm run build && build -mwl"
   },
   "bin": {
-    "electron": "./node_modules/bin/electron"
+    "electron": "./node_modules/bin/electron",
+    "build": "./node_modules/bin/build"
   },
   "devEngines": {
     "node": ">=6.x",
     "npm": ">=3.x"
   },
-  "repository": "http://github.com/evansb/conifer-demo",
-  "author": "Evan Sebastian <evanlhoini@gmail.com>",
+  "repository": "https://github.com/evansb/conifer-demo",
+  "author": {
+    "name": "Evan Sebastian",
+    "email": "evanlhoini@gmail.com",
+    "url": "https://github.com/evansb"
+  },
   "browserslist": "electron 1.6",
   "license": "MIT",
   "build": {
     "productName": "ConiferDemo",
     "appId": "org.evansb.ConiferDemo",
-    "category": "public.app-category.games",
     "dmg": {
       "contents": [
         {
@@ -48,7 +59,7 @@
       "package.json"
     ],
     "win": {
-      "target": "nsis"
+      "target": ["nsis"]
     },
     "linux": {
       "target": [
@@ -68,8 +79,11 @@
     "cross-env": "^3.1.4",
     "css-loader": "^0.26.2",
     "electron": "^1.6.1",
+    "electron-builder": "^14.5.3",
     "express": "^4.15.0",
+    "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^0.10.1",
+    "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
     "node-sass": "^4.5.0",

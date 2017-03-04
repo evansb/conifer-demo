@@ -36,6 +36,8 @@ const installExtensions = () => {
     return Promise
       .all(extensions.map(name => installer.default(installer[name], forceDownload)))
       .catch(console.log)
+  } else {
+    return Promise.resolve()
   }
 }
 

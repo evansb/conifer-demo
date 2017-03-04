@@ -1,5 +1,6 @@
 /// <reference path='webpack.d.ts' />
 
+import path = require('path')
 import webpack = require('webpack')
 import merge = require('webpack-merge')
 import baseConfig from './webpack.config'
@@ -10,7 +11,7 @@ export default merge(baseConfig, {
   entry: ['./app/main.development'],
 
   output: {
-    path: __dirname,
+    path: path.join(__dirname, '..'),
     filename: './app/main.js'
   },
 
@@ -21,6 +22,11 @@ export default merge(baseConfig, {
       }
     })
   ],
+
+  node: {
+    __dirname: false,
+    __filename: false
+  },
 
   target: 'electron-main'
 })

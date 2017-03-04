@@ -4,3 +4,6 @@ declare module 'webpack-merge' {
   function merge(config1: Configuration, config2: Configuration): Configuration
   export = merge 
 }
+
+declare module 'extract-text-webpack-plugin'
+declare module 'html-webpack-plugin'
