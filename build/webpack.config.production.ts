@@ -13,30 +13,19 @@ export default merge(baseConfig, {
   entry: ['./app/index'],
 
   output: {
-    path: path.join(__dirname, '../app/dist'),
+    path: path.join(__dirname, '../dist'),
     publicPath: '../dist'
   },
 
   module: {
     rules: [
       {
-        test: /\.global\.scss$/,
+        test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           use: ['css-loader', 'sass-loader'],
           fallback: 'style-loader'
         })
       },
-      {
-        test: /^((?!\.global).)*\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          use: [
-            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-            'sass-loader'
-          ],
-          fallback: 'style-loader'
-        })
-      },
-
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
@@ -56,9 +45,9 @@ export default merge(baseConfig, {
     new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
 
     new HtmlWebpackPlugin({
-      filename: '../app.html',
-      template: 'app/app.html',
-      inject: false
+      filename: './index.html',
+      template: 'index.html',
+      inject: 'body'
     }),
 
     new webpack.DefinePlugin({
@@ -67,6 +56,4 @@ export default merge(baseConfig, {
       }
     })
   ],
-
-  target: 'electron-renderer'
 })
