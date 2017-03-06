@@ -2,6 +2,15 @@
 @import '~bulma/sass/base/helpers';
 @import '~bulma/sass/elements/other';
 @import '~bulma/sass/grid/columns';
+@import '~bulma/sass/grid/tiles';
 
 @import '~@blueprintjs/core/dist/blueprint.css';
 @import '~@blueprintjs/core/dist/variables';
+
+body {
+  background-color: $dark-gray2;
+}
+
+.sidenav {
+  background: $dark-gray3;
+}

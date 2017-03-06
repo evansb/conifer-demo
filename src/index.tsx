@@ -1,8 +1,12 @@
 import * as React from 'react'
-import { render } from 'react-dom'
+import {render} from 'react-dom'
+import {createStore} from './mobx/store'
+import {App} from './containers/App'
 import './index.scss'
 
+const store = createStore()
+
 render(
-  <h1>It works!</h1>,
+  <App store={store} />,
   document.getElementById('root')
 )

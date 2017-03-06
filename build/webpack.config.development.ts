@@ -1,8 +1,10 @@
 /// <reference path='webpack.d.ts' />
 
+import path = require('path')
 import webpack = require('webpack')
 import merge = require('webpack-merge')
 import { CheckerPlugin } from 'awesome-typescript-loader'
+import HtmlWebpackPlugin = require('html-webpack-plugin')
 
 import baseConfig from './webpack.config'
 
@@ -20,7 +22,7 @@ export default merge(baseConfig, {
   entry: [hot, './src/index'],
 
   output: {
-    publicPath: `http://localhost:${port}/dist/`
+    publicPath: `http://localhost:${port}/`
   },
 
   module: {
@@ -32,17 +34,8 @@ export default merge(baseConfig, {
           'css-loader?sourceMap',
           'sass-loader'
         ]
-      },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' },
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader'
       }
-    ]
+     ]
   },
 
   plugins: [
@@ -50,6 +43,11 @@ export default merge(baseConfig, {
     new webpack.optimize.OccurrenceOrderPlugin(false),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../index.html'),
+      inject: 'body'
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
