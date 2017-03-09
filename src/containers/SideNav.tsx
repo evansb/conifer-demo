@@ -24,33 +24,72 @@ export class SideNav extends React.Component<SideNavProps, SideNavState>  {
     return Promise.resolve()
   }
 
-  handleConnect(host: string, port: number): Promise<boolean> {
-    return Promise.resolve(true)
+  handleConnect = (host: string, port: number, nickname: string): Promise<void> => {
+    const connection = this.props.store.connectionStore.create(host,
+      port, nickname)
+    return connection.connect()
   }
 
-  handleCloseNewConnectionDialog() {
+  handleCloseNewConnectionDialog = () => {
     this.setState({isNewConnectionDialogOpen: false })
   }
 
-  openNewConnectionDialog() {
+  openNewConnectionDialog = () => {
     this.setState({isNewConnectionDialogOpen: true })
+  }
+
+  renderConnectionStatus() {
+    const connection = this.props.store.connectionStore.connection
+    if (!connection) {
+      return (
+        <a className="pt-button pt-intent-primary pt-icon-new-link"
+          onClick={this.openNewConnectionDialog} role="button">
+          Connect
+        </a>
+      )
+    } else {
+      return (
+        <a className="pt-button pt-intent-success" role="button">
+          {connection.nickname}@{connection.host}
+        </a>
+      )
+    }
   }
   
   render() {
     return (
-      <Menu>
-        <MenuDivider title="Connection"></MenuDivider>
-        <MenuItem
-          iconName="new-link"
-          onClick={this.openNewConnectionDialog.bind(this)}
-          text="New Connection" />
-        <MenuDivider />
+      <div className="columns is-multiline">
+        <div className="top-right-bar column is-12">
+          <div className="pt-button-group pt-fill">
+            {this.renderConnectionStatus()}
+            <a className="pt-button pt-active pt-icon-eye-on" role="button"></a>
+          </div>
+        </div>
+
+        <div className="entities-menu column is-12">
+          <div className="pt-button-group">
+            <a className="pt-button pt-intent-warning pt-icon-git-commit" role="button">
+            Commit
+            </a>
+            <a className="pt-button" role="button">New</a>
+            <a className="pt-button" role="button">Remove</a>
+          </div>
+        </div>
+
+        <div className="peers-menu column is-12">
+          <div className="columns">
+            <div className="column is-12 is-mobile">
+              <b>PEERS</b>
+            </div>
+          </div>
+        </div>
+
         <NewConnectionDialog
           isOpen={this.state.isNewConnectionDialogOpen}
           pingConnection={this.pingConnection}
           onConnect={this.handleConnect}
-          onClose={this.handleCloseNewConnectionDialog.bind(this)} />
-      </Menu>
+          onClose={this.handleCloseNewConnectionDialog} />
+      </div>
     )
   }
 }

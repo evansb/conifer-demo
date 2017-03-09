@@ -13,4 +13,29 @@ body {
 
 .sidenav {
   background: $dark-gray3;
+  height: 100vh;
+}
+
+.top-right-bar {
+  background: $dark-gray2;
+}
+
+.middle-content {
+  background: $dark-gray1;
+}
+
+.game-content {
+  background: black;
+}
+
+.behavior-tab {
+  background: $dark-gray1;
+}
+
+.behavior-content {
+  background: $dark-gray2;
+}
+
+.entities-menu {
+  height: 60vh;
 }

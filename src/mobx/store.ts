@@ -1,12 +1,12 @@
 import {ConnectionStore} from './ConnectionStore'
 
 export interface IStore {
-  connections: ConnectionStore
+  connectionStore: ConnectionStore
 }
 
 export function createStore(): IStore {
   return {
-    connections: new ConnectionStore()
+    connectionStore: new ConnectionStore()
   }
 }
 

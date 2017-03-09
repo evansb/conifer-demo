@@ -8,7 +8,7 @@ import axios from 'axios'
 export interface NewConnectionDialogProps {
   isOpen: boolean
   pingConnection(host: string, port: number): Promise<void>
-  onConnect(host: string, port: number): Promise<boolean>
+  onConnect(host: string, port: number, nickname: string): Promise<void>
   onClose(): void
 }
 
@@ -16,7 +16,6 @@ interface NewConnectionDialogState {
   host: string
   port: number
   nickname: string
-  canConnect: boolean
 }
 
 export class NewConnectionDialog
@@ -24,29 +23,14 @@ export class NewConnectionDialog
                           NewConnectionDialogState>  {
 
   private getDefaultState = () => ({
-    host: '127.0.0.1',
+    host: 'localhost',
     port: 6789,
-    nickname: '',
-    canConnect: false
+    nickname: ''
   })
 
   constructor(props: NewConnectionDialogProps, context: any) {
     super(props, context)
     this.state = this.getDefaultState()
-  }
-
-  validateConnectionParams = () => {
-    const url = `http://${this.state.host}:${this.state.port}`
-    if (this.state.nickname.length > 0 && validUrl.isHttpUri(url)) {
-      const pingUrl = `${url}/api/v1/status` 
-      axios.get(pingUrl).then(() => {
-        this.setState({ canConnect: true })
-      }).catch(() => {
-        this.setState({ canConnect: false })
-      })
-    } else {
-      this.setState({ canConnect: false })
-    }
   }
 
   handleClose = () => {
@@ -55,17 +39,16 @@ export class NewConnectionDialog
   }
 
   handleConnect = () => {
-    const { host, port } = this.state
-    this.props.onConnect(host, port).then((success) => {
-      if (success) {
-        this.handleClose()
-      }
+    const { host, port, nickname } = this.state
+    this.props.onConnect(host, port, nickname).then(() => {
+      this.handleClose()
     }).catch((e) => {
       const connectionError = Toaster.create({
         position: Position.TOP
       })
       connectionError.show({
-        message: "Connection Error. Details: " + e
+        intent: Intent.DANGER,
+        message: "Connection Error"
       })
     })
   }
@@ -75,17 +58,14 @@ export class NewConnectionDialog
 
     const handleHostChange = (event: React.FormEvent<HTMLElement>) => {
       this.setState({host: (event.target as HTMLInputElement).value})
-      this.validateConnectionParams()
     }
 
     const handleNicknameChange = (event: React.FormEvent<HTMLElement>) => {
       this.setState({nickname: (event.target as HTMLInputElement).value})
-      this.validateConnectionParams()
     }
 
     const handlePortChange = (event: React.FormEvent<HTMLElement>) => {
       this.setState({port: +(event.target as HTMLInputElement).value})
-      this.validateConnectionParams()
     }
 
     return (
@@ -107,7 +87,7 @@ export class NewConnectionDialog
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
             <Button
-              disabled={!this.state.canConnect}
+              disabled={this.state.nickname.length <= 0}
               intent={Intent.SUCCESS}
               onClick={this.handleConnect}
               text="Connect" />

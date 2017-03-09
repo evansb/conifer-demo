@@ -39,7 +39,7 @@ export default merge(baseConfig, {
   },
 
   plugins: [
-    CheckerPlugin,
+    new CheckerPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(false),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
