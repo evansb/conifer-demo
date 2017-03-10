@@ -4,6 +4,8 @@ import {IStore} from '../mobx/store'
 import {Menu, MenuItem, MenuDivider} from '@blueprintjs/core'
 import {NewConnectionDialog} from '../components/NewConnectionDialog'
 
+const ConiferLogo = require('../assets/conifer-logo.svg').default
+
 export interface SideNavProps {
   store: IStore
 }
@@ -60,9 +62,16 @@ export class SideNav extends React.Component<SideNavProps, SideNavState>  {
     return (
       <div className="columns is-multiline">
         <div className="top-right-bar column is-12">
-          <div className="pt-button-group pt-fill">
-            {this.renderConnectionStatus()}
-            <a className="pt-button pt-active pt-icon-eye-on" role="button"></a>
+          <div className="columns">
+            <div className="column is-2 is-mobile">
+              <ConiferLogo /> 
+            </div>
+            <div className="column">
+              <div className="pt-button-group pt-fill">
+                {this.renderConnectionStatus()}
+                <a className="pt-button pt-active pt-icon-eye-on" role="button"></a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -71,8 +80,7 @@ export class SideNav extends React.Component<SideNavProps, SideNavState>  {
             <a className="pt-button pt-intent-warning pt-icon-git-commit" role="button">
             Commit
             </a>
-            <a className="pt-button" role="button">New</a>
-            <a className="pt-button" role="button">Remove</a>
+            <a className="pt-button pt-intent-primary" role="button">New Entity</a>
           </div>
         </div>
 

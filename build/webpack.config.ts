@@ -30,7 +30,15 @@ const webpackConfig: webpack.Configuration = {
       },
       {
         test: /\.svg/,
-        use: 'svg-url-loader'
+        use: [
+          { loader: 'babel-loader' },
+          {
+            loader: 'react-svg-loader',
+            query: {
+              jsx: true
+            }
+          }
+        ]
       }
     ]
   },

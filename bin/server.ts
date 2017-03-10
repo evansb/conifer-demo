@@ -28,6 +28,7 @@ const wdm = webpackDevMiddleware(compiler, {
 })
 
 app.use(wdm)
+app.use(express.static('static'))
 app.use(webpackHotMiddleware(compiler, {
   path: '/__webpack_hmr'
 }))
